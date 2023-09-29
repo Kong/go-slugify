@@ -43,3 +43,22 @@ func TestSlugify(t *testing.T) {
 		testSlugify(t, c.input, c.expect)
 	}
 }
+
+func TestSlugifyToLower(t *testing.T) {
+	cases := []testCase{
+		{"", ""},
+		{"abc", "abc"},
+		{"abc234", "abc234"},
+		{"This is a test ---", "This-is-a-test"},
+		{"___This is a test___", "This-is-a-test"},
+		{"This -- is a ## test ---", "This-is-a-test"},
+		{"北京kožušček", "Bei-Jing-kozuscek"},
+		{"Nín hǎo. Wǒ shì zhōng guó rén", "Nin-hao-Wo-shi-zhong-guo-ren"},
+		{`C\'est déjà l\'été.`, "C-est-deja-l-ete"},
+	}
+	ToLower = false
+	for _, c := range cases {
+		log.Printf("input %v, expect %v", c.input, c.expect)
+		testSlugify(t, c.input, c.expect)
+	}
+}

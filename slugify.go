@@ -20,6 +20,9 @@ var ReInValidChar = regexp.MustCompile(fmt.Sprintf("[^%sa-zA-Z0-9]", SeparatorFo
 // ReDupSeparatorChar match duplicate separator string
 var ReDupSeparatorChar = regexp.MustCompile(fmt.Sprintf("%s{2,}", SeparatorForRe))
 
+// ToLower convert to lower case
+var ToLower = true
+
 // Version return version
 func Version() string {
 	return "0.2.0"
@@ -36,7 +39,9 @@ func slugify(s string) string {
 	s = replaceInValidCharacter(s, Separator)
 	s = removeDupSeparator(s)
 	s = strings.Trim(s, Separator)
-	s = strings.ToLower(s)
+	if ToLower {
+		s = strings.ToLower(s)
+	}
 	return s
 }
 
