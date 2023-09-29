@@ -3,7 +3,7 @@ package slugify_test
 import (
 	"fmt"
 
-	"github.com/mozillazg/go-slugify"
+	"github.com/kong/go-slugify"
 )
 
 func ExampleSlugify() {

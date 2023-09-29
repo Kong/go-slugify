@@ -1,7 +1,9 @@
 package slugify
 
-import "testing"
-import "log"
+import (
+	"log"
+	"testing"
+)
 
 type testCase struct {
 	input, expect string

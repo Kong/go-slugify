@@ -7,8 +7,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/kong/go-slugify"
 	"github.com/mattn/go-isatty"
-	"github.com/mozillazg/go-slugify"
 )
 
 func main() {
