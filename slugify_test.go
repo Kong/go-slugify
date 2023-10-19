@@ -38,6 +38,7 @@ func TestSlugify(t *testing.T) {
 		{"Nín hǎo. Wǒ shì zhōng guó rén", "nin-hao-wo-shi-zhong-guo-ren"},
 		{`C\'est déjà l\'été.`, "c-est-deja-l-ete"},
 	}
+	ToLower = true
 	for _, c := range cases {
 		log.Printf("input %v, expect %v", c.input, c.expect)
 		testSlugify(t, c.input, c.expect)

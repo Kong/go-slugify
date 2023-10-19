@@ -1,6 +1,11 @@
 # Changelog
 
 
+## unreleased
+
+* make "ToLower" conversion configurable
+* add an InvalidCharReplacement (no more reuse of "Separator")
+
 ## 0.2.0 (2016-08-14)
 
 **New**
