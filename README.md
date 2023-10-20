@@ -1,13 +1,9 @@
 go-slugify
 ==============
 
-[![Build Status](https://travis-ci.org/mozillazg/go-slugify.svg?branch=master)](https://travis-ci.org/mozillazg/go-slugify)
-[![Coverage Status](https://coveralls.io/repos/mozillazg/go-slugify/badge.svg?branch=master)](https://coveralls.io/r/mozillazg/go-slugify?branch=master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/kong/go-slugify)](https://goreportcard.com/report/github.com/kong/go-slugify)
-[![GoDoc](https://godoc.org/github.com/kong/go-slugify?status.svg)](https://godoc.org/github.com/kong/go-slugify)
 
-Make Pretty Slug.
-
+Make Pretty Slugs.
 
 Installation
 ------------
@@ -44,8 +40,9 @@ import (
 )
 
 func main() {
+	slugifier := sligify.NewSlugifier()
 	s := "北京kožušček,abc"
-	fmt.Println(slugify.Slugify(s))
+	fmt.Println(slugifier.Slugify(s))
 	// Output: bei-jing-kozuscek-abc
 }
 ```

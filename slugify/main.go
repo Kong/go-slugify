@@ -35,6 +35,7 @@ func main() {
 	}
 
 	s := strings.Join(textSlice, " ")
-	ret := slugify.Slugify(s)
+	slugifier := slugify.NewSlugifier()
+	ret := slugifier.Slugify(s)
 	fmt.Println(ret)
 }
