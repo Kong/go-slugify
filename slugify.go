@@ -103,7 +103,7 @@ func (s *Slugifier) InvalidChar(invalidCharReplacement string) *Slugifier {
 
 // Version return version
 func Version() string {
-	return "0.2.0"
+	return "1.0.0"
 }
 
 // Slugify implements making a pretty slug from the given text.
