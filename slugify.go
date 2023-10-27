@@ -11,12 +11,14 @@ import (
 const (
 	defaultWordSeparator          = "-"
 	defaultInvalidCharReplacement = "-"
+	defaultAllowedSet             = "a-zA-Z0-9"
 )
 
 type Slugifier struct {
 	skipToLower            bool    // convert to lower or not
 	wordSeparator          *string // separator char between words
 	invalidCharReplacement *string // replacement for illegal chars
+	allowedSet             *string // allowed chars, as a regex set (without [])
 	reInValidChar          *regexp.Regexp
 	reDupSeparatorChar     *regexp.Regexp
 	initialized            bool
@@ -42,8 +44,13 @@ func (s *Slugifier) initialize() {
 		s.wordSeparator = &ws
 	}
 
+	if s.allowedSet == nil {
+		as := defaultAllowedSet
+		s.allowedSet = &as
+	}
+
 	separatorForRe := regexp.QuoteMeta(*s.wordSeparator)
-	s.reInValidChar = regexp.MustCompile(fmt.Sprintf("[^%sa-zA-Z0-9]", separatorForRe))
+	s.reInValidChar = regexp.MustCompile(fmt.Sprintf("[^%s"+*s.allowedSet+"]", separatorForRe))
 	if separatorForRe != "" {
 		s.reDupSeparatorChar = regexp.MustCompile(fmt.Sprintf("%s{2,}", separatorForRe))
 	} else {
@@ -54,7 +61,7 @@ func (s *Slugifier) initialize() {
 }
 
 // ToLower sets the flag indicating if the slugified result should be lowercased.
-// Returns the slugifier for easy chaning.
+// Returns the slugifier for easy chaining.
 func (s *Slugifier) ToLower(toLower bool) *Slugifier {
 	s.skipToLower = !toLower
 	return s
@@ -63,9 +70,21 @@ func (s *Slugifier) ToLower(toLower bool) *Slugifier {
 // WordSeparator sets the word separator character to use. Defaults to a dash ("-"). The word separator is used to
 // replace whitespace. Leading and trailing word separators are trimmed. Multiple successive word separators are
 // replaced with a single word separator.
-// Returns the slugifier for easy chaning.
+// Returns the slugifier for easy chaining.
 func (s *Slugifier) WordSeparator(wordSeparator string) *Slugifier {
 	s.wordSeparator = &wordSeparator
+	s.reInValidChar = nil
+	s.reDupSeparatorChar = nil
+	s.initialized = false
+	return s
+}
+
+// AllowedSet sets the allowed set of characters. Defaults to "a-zA-Z0-9". The allowed set is used to replace
+// characters that are not in the allowed set with the invalid character replacement.
+// It must be a valid regex set (typically in [] brackets), any characters that need escaping must
+// be properly escaped. The word separator is automatically added to the allowed set.
+func (s *Slugifier) AllowedSet(allowedSet string) *Slugifier {
+	s.allowedSet = &allowedSet
 	s.reInValidChar = nil
 	s.reDupSeparatorChar = nil
 	s.initialized = false
@@ -76,7 +95,7 @@ func (s *Slugifier) WordSeparator(wordSeparator string) *Slugifier {
 // word separator, or the InvalidChar). Defaults to a dash ("-"). Leading and trailing
 // InvalidCharReplacements are trimmed. Multiple successive InvalidCharReplacements are NOT replaced with a single
 // InvalidChar.
-// Returns the slugifier for easy chaning.
+// Returns the slugifier for easy chaining.
 func (s *Slugifier) InvalidChar(invalidCharReplacement string) *Slugifier {
 	s.invalidCharReplacement = &invalidCharReplacement
 	return s
